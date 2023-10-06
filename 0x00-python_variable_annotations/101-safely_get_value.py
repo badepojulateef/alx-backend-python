@@ -19,7 +19,8 @@ T = TypeVar('T')
 
 
 def safely_get_value(dct: Mapping, key: Any,
-                     default: Union[T, None] = None) -> Union[Any, T]:
+                     default: Union[TypeVar('T'), None] = None)\
+                     -> Union[Any, TypeVar('T')]:
     """
     Safely retrieves a value from a dictionary, returning
     the value if the key exists, or the default value if not.
