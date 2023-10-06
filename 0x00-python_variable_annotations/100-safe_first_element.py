@@ -12,7 +12,7 @@ def safe_first_element(lst):
 from typing import Sequence, Union
 
 
-def safe_first_element(lst: Sequence) -> Union[None, lst[0]]:
+ def safe_first_element(lst: Sequence[Any]) -> Union[Any, None]:
     """
     Returns the first element of a sequence or None if the sequence is empty.
 
