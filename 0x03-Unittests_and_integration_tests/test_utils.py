@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Familiarize yourself with the utils.access_nested_map function and
+"""
+Familiarize yourself with the utils.access_nested_map function and
 understand its purpose. Play with it in the Python console to make
 sure you understand.
 
@@ -68,3 +69,60 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         with self.assertRaises(expected_exception):
             access_nested_map(nested_map, path)
+
+
+    class TestGetJson(unittest.TestCase):
+    """Test class for the get_json function."""
+
+    @parameterized.expand(
+        [
+            ('http://example.com', {'payload': True}),
+            ('http://holberton.io', {'payload': False}),
+        ]
+    )
+    def test_get_json(self, url, expected_output):
+        """Test the get_json function with different URLs.
+
+        Args:
+            url (str): The URL to request JSON data from.
+            expected_output: The expected JSON response.
+        """
+        mock_response = Mock()
+        mock_response.json.return_value = expected_output
+        with patch('requests.get', return_value=mock_response):
+            response = get_json(url)
+
+            self.assertEqual(response, expected_output)
+
+class TestMemoize(unittest.TestCase):
+    """Test class for the memoize decorator."""
+
+    def test_memoize(self):
+        """Test the memoize decorator.
+
+        This test checks whether the @memoize decorator correctly caches the result
+        of a method, ensuring that it is called only once and returns the cached value
+        on subsequent calls.
+        """
+        class TestClass:
+            """Test class for memoization."""
+            def a_method(self):
+                """A method for testing memoization."""
+                return 42
+
+            @memoize
+            def a_property(self):
+                """A memoized property using the memoize decorator."""
+                return self.a_method()
+
+        test_obj = TestClass()
+
+        with patch.object(test_obj, 'a_method') as mock_method:
+            mock_method.return_value = 42
+
+            result1 = test_obj.a_property
+            result2 = test_obj.a_property
+
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+            mock_method.assert_called_once()
