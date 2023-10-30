@@ -25,12 +25,13 @@ import utils
 
 class TestAccessNestedMap(unittest.TestCase):
     """
-    Test class for the access_nested_map function
+    Test the access_nested_map function with various inputs.
 
     Args:
-        unittest (_type_): _description_
+        nested_map (dict): The nested map to access.
+        path (tuple): The path to navigate within the map.
+        expected_output: The expected result of accessing the path.
     """
-
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
@@ -38,8 +39,8 @@ class TestAccessNestedMap(unittest.TestCase):
     ])
     def test_access_nested_map(self, nested_map, path, expected_result):
         """Test the access_nested_map function."""
-        self.assertEqual(utils.access_nested_map(nested_map, path),
-                         expected_result)
+        res = utils.access_nested_map(nested_map, path)
+        self.assertEqual(res, expected_result)
 
         @parameterized.expand([
         ({}, ("a",)),
