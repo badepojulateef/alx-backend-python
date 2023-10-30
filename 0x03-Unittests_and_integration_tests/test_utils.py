@@ -18,10 +18,10 @@ nested_map={"a": 1}, path=("a",)
 nested_map={"a": {"b": 2}}, path=("a",)
 nested_map={"a": {"b": 2}}, path=("a", "b")
 """
-
 import unittest
-from unittest.mock import patch, MOCK
-import utils
+from parameterized import parameterized
+from utils import access_nested_map, get_json, memoize
+from unittest.mock import patch, Mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
