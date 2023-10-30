@@ -32,22 +32,39 @@ class TestAccessNestedMap(unittest.TestCase):
         path (tuple): The path to navigate within the map.
         expected_output: The expected result of accessing the path.
     """
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2)
-    ])
-    def test_access_nested_map(self, nested_map, path, expected_result):
-        """Test the access_nested_map function."""
-        res = utils.access_nested_map(nested_map, path)
-        self.assertEqual(res, expected_result)
 
-        @parameterized.expand([
-        ({}, ("a",)),
-        ({"a": 1}, ("a", "b"))
-    ])
+    @parameterized.expand(
+        [
+            ({"a": 1}, ("a",), 1),  # Test with a simple map and path
+            ({"a": {"b": 2}}, ("a",), {"b": 2}),  # Test with nested map and path
+            ({"a": {"b": 2}}, ("a", "b"), 2),  # Test deeper nested map and path
+        ]
+    )
+    def test_access_nested_map_success(self, nested_map, path, expected_output):
+        """Test the access_nested_map function with various inputs.
 
-    def test_access_nested_map_exception(self, nested_map, path):
-        """Test exception handling in access_nested_map function."""
-        with self.assertRaises(KeyError):
-            utils.access_nested_map(nested_map, path)
+        Args:
+            nested_map (dict): The nested map to access.
+            path (tuple): The path to navigate within the map.
+            expected_output: The expected result of accessing the path.
+        """
+        result = access_nested_map(nested_map, path)
+        self.assertEqual(result, expected_output)
+
+        @parameterized.expand(
+        [
+            ({}, ("a",), KeyError),  # Test with an empty map and path
+            ({"a": 1}, ("a", "b"), KeyError),  # Test with missing path in the map
+        ]
+    )
+
+    def test_access_nested_map_exception(self, nested_map, path, expected_exception):
+        """Test exception handling in access_nested_map function.
+
+        Args:
+            nested_map (dict): The nested map to access.
+            path (tuple): The path to navigate within the map.
+            expected_exception: The expected exception to be raised.
+        """
+        with self.assertRaises(expected_exception):
+            access_nested_map(nested_map, path)
