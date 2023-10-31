@@ -46,8 +46,8 @@ class TestGithubOrgClient(unittest.TestCase):
             unittest (_type_): _description_
     """
     @parameterized.expand([
-        ("google", {'login': "google"}),
-        ("abc", {'login': "abc"}),
+        ("google", ),
+        ("abc", ),
     ])
     @patch(
         "client.get_json",
@@ -70,7 +70,9 @@ class TestGithubOrgClient(unittest.TestCase):
         )
 
     def test_public_repos_url(self) -> None:
-        """_summary_
+        """
+        Implement the test_public_repos_url method to
+        unit-test GithubOrgClient._public_repos_url
         """
         with patch(
             "client.GithubOrgClient.org",
