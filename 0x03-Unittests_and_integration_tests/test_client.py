@@ -50,12 +50,23 @@ class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
         ("random-url", {'repos_url': 'http://some_url.com'})
     ])
-    def test_public_repos_url(self, name, result):
-        """ Test method returns correct output """
-        with patch('client.GithubOrgClient.org',
-                   PropertyMock(return_value=result)):
-            response = GithubOrgClient(name)._public_repos_url
-            self.assertEqual(response, result.get('repos_url'))
+
+    def test_public_repos_url(self) -> None:
+        """
+        Implement the test_public_repos_url method to unit-test
+        GithubOrgClient._public_repos_url
+        """
+        with patch(
+            "client.GithubOrgClient.org",
+            new_callable=PropertyMock,
+        ) as mock_org:
+            mock_org.return_value = {
+                'repos_url': "https://api.github.com/users/google/repos",
+            }
+            self.assertEqual(
+                GithubOrgClient("google")._public_repos_url,
+                "https://api.github.com/users/google/repos",
+            )
 
     @patch('client.get_json')
     def test_public_repos(self, get_json_mock):
