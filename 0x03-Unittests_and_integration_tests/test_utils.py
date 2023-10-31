@@ -25,67 +25,53 @@ from unittest.mock import patch, Mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    """
-    Test the access_nested_map function with various inputs.
+    """_summary_
 
     Args:
-        nested_map (dict): The nested map to access.
-        path (tuple): The path to navigate within the map.
-        expected_output: The expected result of accessing the path.
+        unittest (_type_): _description_
     """
 
     @parameterized.expand(
         [
-            ({"a": 1}, ("a",), 1),  # Test with a simple map and path
-            ({"a": {"b": 2}}, ("a",), {"b": 2}),  # Test with nested map and path
-            ({"a": {"b": 2}}, ("a", "b"), 2),  # Test deeper nested map and path
+            ({"a": 1}, ("a",), 1),
+            ({"a": {"b": 2}}, ("a",), {"b": 2}),
+            ({"a": {"b": 2}}, ("a", "b"), 2)
         ]
     )
-    def test_access_nested_map_success(self, nested_map, path, expected_output):
-        """Test the access_nested_map function with various inputs.
-
-        Args:
-            nested_map (dict): The nested map to access.
-            path (tuple): The path to navigate within the map.
-            expected_output: The expected result of accessing the path.
+    def test_access_nested_map(self, nested_map, path, expected_output):
+        """_summary_
         """
         result = access_nested_map(nested_map, path)
         self.assertEqual(result, expected_output)
 
-        @parameterized.expand(
+    @parameterized.expand(
         [
-            ({}, ("a",), KeyError),  # Test with an empty map and path
-            ({"a": 1}, ("a", "b"), KeyError),  # Test with missing path in the map
+            ({}, ("a",), KeyError),
+            ({"a": 1}, ("a", "b"), KeyError)
         ]
     )
-
-    def test_access_nested_map_exception(self, nested_map, path, expected_exception):
-        """Test exception handling in access_nested_map function.
-
-        Args:
-            nested_map (dict): The nested map to access.
-            path (tuple): The path to navigate within the map.
-            expected_exception: The expected exception to be raised.
+    def test_access_nested_map_exception(self, nested_map, path,
+                                         expected_output):
+        """_summary_
         """
-        with self.assertRaises(expected_exception):
+        with self.assertRaises(expected_output) as context:
             access_nested_map(nested_map, path)
 
 
-    class TestGetJson(unittest.TestCase):
-    """Test class for the get_json function."""
+class TestGetJson(unittest.TestCase):
+    """_summary_
 
+    Args:
+                    unittest (_type_): _description_
+    """
     @parameterized.expand(
         [
             ('http://example.com', {'payload': True}),
-            ('http://holberton.io', {'payload': False}),
+            ('http://holberton.io', {'payload': False})
         ]
     )
     def test_get_json(self, url, expected_output):
-        """Test the get_json function with different URLs.
-
-        Args:
-            url (str): The URL to request JSON data from.
-            expected_output: The expected JSON response.
+        """_summary_
         """
         mock_response = Mock()
         mock_response.json.return_value = expected_output
@@ -94,25 +80,40 @@ class TestAccessNestedMap(unittest.TestCase):
 
             self.assertEqual(response, expected_output)
 
+
 class TestMemoize(unittest.TestCase):
-    """Test class for the memoize decorator."""
+    """_summary_
+
+    Args:
+                    unittest (_type_): _description_
+    """
 
     def test_memoize(self):
-        """Test the memoize decorator.
+        """_summary_
 
-        This test checks whether the @memoize decorator correctly caches the result
-        of a method, ensuring that it is called only once and returns the cached value
-        on subsequent calls.
+        Returns:
+                _type_: _description_
         """
+
         class TestClass:
-            """Test class for memoization."""
+            """_summary_
+            """
+
             def a_method(self):
-                """A method for testing memoization."""
+                """_summary_
+
+                Returns:
+                        _type_: _description_
+                """
                 return 42
 
             @memoize
             def a_property(self):
-                """A memoized property using the memoize decorator."""
+                """_summary_
+
+                Returns:
+                        _type_: _description_
+                """
                 return self.a_method()
 
         test_obj = TestClass()
